@@ -5,12 +5,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("home.html")
-
-
-@app.route("/salvador")
-def salvador():
-    return "Hello, Salvador"
+    context = dict(
+        years_of_experience='6+',
+        age=9
+    )
+    
+    return render_template("home.html", **context)
 
 
 if __name__ == "__main__":

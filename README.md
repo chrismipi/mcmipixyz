@@ -1,4 +1,4 @@
-# MCMIPIXYZ
+# MCMIPIXYZ ![Python package](https://github.com/chrismipi/mcmipixyz/workflows/Python%20package/badge.svg)
 
 WebSite
 

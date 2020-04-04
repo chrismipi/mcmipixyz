@@ -10,7 +10,7 @@ def home():
     context = dict(
         years_of_experience='6+',
         age=9,
-        wd={},
+        wd=dict(weather_state_name='No Weather details', the_temp=0),
         city="Johannesurg"
     )
 

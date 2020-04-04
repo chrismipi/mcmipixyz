@@ -9,20 +9,43 @@ app = Flask(__name__)
 def home():
     context = dict(
         years_of_experience='6+',
-        age=9
+        age=9,
+        wd={},
+        city="Johannesurg"
     )
 
     ip_address = request.remote_addr
     if ip_address != '127.0.0.1':
-        resp = requests.get('http://ip-api.com/json/' + ip_address)
+        try:
+            resp = requests.get('http://ip-api.com/json/' + ip_address)
 
-        resp_json = json.loads(resp.text)
+            resp_json = json.loads(resp.text)
 
-        lon = resp_json['lon']
-        lat = resp_json['lat']
+            city = resp_json['city']
+            lon = resp_json['lon']
+            lat = resp_json['lat']
+            url = "https://www.metaweather.com/api/location/search/?lattlong={},{}".format(
+                lat, lon)
+            woeid_resp = requests.get(url)
+            woeid_json = json.loads(woeid_resp.text)
 
-        print('LON ', lon)
-        print('LAT ', lat)
+            woeid = '1582504'  # default is for Johannesburg, Gauteng, South Africa
+            for data in woeid_json:
+                if city == data['title']:
+                    woeid = data['woeid']
+
+            weather_url = 'https://www.metaweather.com/api/location/{}/'.format(
+                woeid)
+
+            weather = requests.get(weather_url)
+            weather_json = json.loads(weather.text)
+            context['city'] = city
+            context['wd_img'] = 'https://www.metaweather.com/static/img/weather/{}.svg'.format(
+                weather_json['consolidated_weather'][0]['weather_state_abbr'])
+            context['wd'] = weather_json['consolidated_weather'][0]
+
+        except Exception:
+            print('ex')
 
     return render_template("home.html", **context)
 

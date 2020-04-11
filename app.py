@@ -15,6 +15,8 @@ def home():
     )
 
     ip_address = request.remote_addr
+    print('===== IP ', ip_address)
+
     if ip_address != '127.0.0.1':
         try:
             resp = requests.get('http://ip-api.com/json/' + ip_address)

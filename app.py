@@ -13,15 +13,17 @@ def home():
         wd=dict(weather_state_name='No Weather details', the_temp=0),
         city="Johannesurg"
     )
-
-    ip_address = request.remote_addr
-    print('===== IP ', ip_address)
+    ip_stuff = request.headers.getlist("X-Forwarded-For")
+    ip_address = '10.150.246.196'  # '10.171.230.57'  # request.remote_addr
+    print('===== IP ', ip_stuff)
 
     if ip_address != '127.0.0.1':
         try:
             resp = requests.get('http://ip-api.com/json/' + ip_address)
 
             resp_json = json.loads(resp.text)
+
+            print('JSON ', resp_json)
 
             city = resp_json['city']
             lon = resp_json['lon']

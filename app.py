@@ -5,6 +5,15 @@ import json
 app = Flask(__name__)
 
 
+def get_ip_address(request):
+    ip = ''
+    if request.headers.getlist("X-Forwarded-For"):
+        ip = request.headers.getlist("X-Forwarded-For")[0]
+    else:
+        ip = request.remote_addr
+    return ip
+
+
 @app.route("/")
 def home():
     context = dict(
@@ -13,17 +22,14 @@ def home():
         wd=dict(weather_state_name='No Weather details', the_temp=0),
         city="Johannesurg"
     )
-    ip_stuff = request.headers.getlist("X-Forwarded-For")
-    ip_address = '10.150.246.196'  # '10.171.230.57'  # request.remote_addr
-    print('===== IP ', ip_stuff)
+
+    ip_address = get_ip_address(request)
 
     if ip_address != '127.0.0.1':
         try:
             resp = requests.get('http://ip-api.com/json/' + ip_address)
 
             resp_json = json.loads(resp.text)
-
-            print('JSON ', resp_json)
 
             city = resp_json['city']
             lon = resp_json['lon']
@@ -48,8 +54,8 @@ def home():
                 weather_json['consolidated_weather'][0]['weather_state_abbr'])
             context['wd'] = weather_json['consolidated_weather'][0]
 
-        except Exception:
-            print('ex')
+        except Exception as ex:
+            print('ex', ex)
 
     return render_template("home.html", **context)
 

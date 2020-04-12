@@ -30,7 +30,6 @@ jobs:
         run: |
           pip install pytest
           pytest
-
       # Deployment stuff
       - name: Login to Heroku Container registry
         env:

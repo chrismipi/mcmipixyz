@@ -31,4 +31,4 @@ def test_ip_localhost():
 
 
 def test_ip_valid_ip():
-    assert utils.valid_ip_address('41.231.32.33') == True
+    assert utils.valid_ip_address('41.144.74.153') == True

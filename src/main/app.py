@@ -17,7 +17,9 @@ def get_ip_address(request):
 @app.route("/")
 def home():
     context = dict(
-        years_of_experience='6+',
+        name='Christopher',
+        surname='Mipi',
+        years_of_experience=6,
         age=9,
         wd=dict(weather_state_name='No Weather details', the_temp=0),
         city="Johannesurg"
@@ -25,7 +27,7 @@ def home():
 
     ip_address = get_ip_address(request)
 
-    if ip_address != '127.0.0.1':
+    if ip_address != '127.0.0.1' and ip_address != '0.0.0.0':
         try:
             resp = requests.get('http://ip-api.com/json/' + ip_address)
 

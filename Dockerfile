@@ -1,4 +1,3 @@
-#Grab the latest alpine image
 FROM alpine:latest
 
 # Install python and pip
@@ -9,7 +8,8 @@ ADD ./requirements.txt /tmp/requirements.txt
 RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
 
 # Add our code
-ADD . /opt/application/
+ADD ./src/main/ /opt/application/
+ADD ./wsgi.py /opt/application/
 WORKDIR /opt/application
 
 # Expose is NOT supported by Heroku

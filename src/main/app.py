@@ -15,19 +15,12 @@ def get_ip_address(request):
     return ip
 
 
-def get_os(request):
-    print(request.user_agent.platform)
-    print(request.user_agent.browser)
-    print(request.user_agent.version)
-    print(request.user_agent.language)
-    return "os"
-
-
 @app.route("/")
 def home():
+    user = get_user_details(request.user_agent.platform)
+
     context = dict(
-        name='Christopher',
-        surname='Mipi',
+        **user,
         years_of_experience=6,
         age=9,
         wd=dict(weather_state_name='No Weather details', the_temp=0),
@@ -35,11 +28,6 @@ def home():
     )
 
     ip_address = get_ip_address(request)
-    os = get_os(request)
-
-    user = get_user_details(request.user_agent.platform)
-
-    print('user ', user)
 
     if ip_address != '127.0.0.1' and ip_address != '0.0.0.0':
         try:

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 import json
+from .modules.utils import get_user_details
 
 app = Flask(__name__)
 
@@ -12,6 +13,14 @@ def get_ip_address(request):
     else:
         ip = request.remote_addr
     return ip
+
+
+def get_os(request):
+    print(request.user_agent.platform)
+    print(request.user_agent.browser)
+    print(request.user_agent.version)
+    print(request.user_agent.language)
+    return "os"
 
 
 @app.route("/")
@@ -26,6 +35,11 @@ def home():
     )
 
     ip_address = get_ip_address(request)
+    os = get_os(request)
+
+    user = get_user_details(request.user_agent.platform)
+
+    print('user ', user)
 
     if ip_address != '127.0.0.1' and ip_address != '0.0.0.0':
         try:

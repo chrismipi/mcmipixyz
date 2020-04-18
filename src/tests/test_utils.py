@@ -1,4 +1,4 @@
-from ...main.modules import utils
+from ..main import utils
 
 
 def test_mac_os():
@@ -23,3 +23,12 @@ def test_linux():
 
     assert res['name'] == 'Christopher'
     assert res['surname'] == 'Mipi'
+
+
+def test_ip_localhost():
+    assert utils.valid_ip_address('127.0.0.1') == False
+    assert utils.valid_ip_address('0.0.0.0') == False
+
+
+def test_ip_valid_ip():
+    assert utils.valid_ip_address('41.231.32.33') == True

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 import json
-from .modules.utils import get_user_details
+from . import utils
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ def get_ip_address(request):
 
 @app.route("/")
 def home():
-    user = get_user_details(request.user_agent.platform)
+    user = utils.get_user_details(request.user_agent.platform)
 
     context = dict(
         **user,
@@ -29,7 +29,7 @@ def home():
 
     ip_address = get_ip_address(request)
 
-    if ip_address != '127.0.0.1' and ip_address != '0.0.0.0':
+    if utils.valid_ip_address(ip_address):
         try:
             resp = requests.get('http://ip-api.com/json/' + ip_address)
 

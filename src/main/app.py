@@ -6,15 +6,6 @@ from . import utils
 app = Flask(__name__)
 
 
-def get_ip_address(request):
-    ip = ''
-    if request.headers.getlist("X-Forwarded-For"):
-        ip = request.headers.getlist("X-Forwarded-For")[0]
-    else:
-        ip = request.remote_addr
-    return ip
-
-
 @app.route("/")
 def home():
     user = utils.get_user_details(request.user_agent.platform)
@@ -27,7 +18,7 @@ def home():
         city="Johannesurg"
     )
 
-    ip_address = get_ip_address(request)
+    ip_address = utils.get_ip_address(request)
 
     if utils.valid_ip_address(ip_address):
         try:

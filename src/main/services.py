@@ -47,6 +47,13 @@ def get_weather_details(woeid):
 
 
 def save_visit(visit):
-    headers = {'Content-type': 'application/json'}
-    resp = requests.post(url='', json='', headers=headers)
-    print('DONE')
+    try:
+        headers = {'Content-type': 'application/json'}
+        json_visit = json.dumps(visit.__dict__)
+        url = 'https://operdev-utils.herokuapp.com/sitevisits'
+
+        resp = requests.post(url=url, json=json_visit, headers=headers)
+
+        print('DONE ', resp)
+    except Exception as ex:
+        print('EX ', ex)

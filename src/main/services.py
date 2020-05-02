@@ -1,6 +1,6 @@
 import requests
 import json
-from .models import Location
+from .models import Location, WeatherDetails
 
 
 def get_location(ip_address):
@@ -29,3 +29,17 @@ def get_woeid(lat, lon, city):
             woeid = data['woeid']
 
     return woeid
+
+
+def get_weather_details(woeid):
+    weather_url = 'https://www.metaweather.com/api/location/{}/'.format(
+        woeid)
+
+    weather = requests.get(weather_url)
+    weather_json = json.loads(weather.text)
+
+    consolidated = weather_json['consolidated_weather'][0]
+    abbr = weather_json['consolidated_weather'][0]['weather_state_abbr']
+    details = WeatherDetails(consolidated, abbr)
+
+    return details

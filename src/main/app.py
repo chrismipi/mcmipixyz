@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import requests
 import json
 from . import utils
-from .services import get_location, get_woeid
+from .services import get_location, get_woeid, get_weather_details
 
 app = Flask(__name__)
 
@@ -27,15 +27,11 @@ def home():
 
             woeid = get_woeid(location.lat(), location.lon(), location.city())
 
-            weather_url = 'https://www.metaweather.com/api/location/{}/'.format(
-                woeid)
+            weather_details = get_weather_details(woeid)
 
-            weather = requests.get(weather_url)
-            weather_json = json.loads(weather.text)
             context['city'] = location.city()
-            context['wd_img'] = 'https://www.metaweather.com/static/img/weather/{}.svg'.format(
-                weather_json['consolidated_weather'][0]['weather_state_abbr'])
-            context['wd'] = weather_json['consolidated_weather'][0]
+            context['wd_img'] = weather_details.get_image()
+            context['wd'] = weather_details.weather()
 
         except Exception as ex:
             print('ex', ex)

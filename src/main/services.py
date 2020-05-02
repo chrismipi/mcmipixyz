@@ -11,8 +11,9 @@ def get_location(ip_address):
     city = resp_json['city']
     lon = resp_json['lon']
     lat = resp_json['lat']
+    country = resp_json['country']
 
-    location = Location(city, lon, lat)
+    location = Location(city, lon, lat, country)
 
     return location
 
@@ -43,3 +44,9 @@ def get_weather_details(woeid):
     details = WeatherDetails(consolidated, abbr)
 
     return details
+
+
+def save_visit(visit):
+    headers = {'Content-type': 'application/json'}
+    resp = requests.post(url='', json='', headers=headers)
+    print('DONE')

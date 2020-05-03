@@ -52,8 +52,7 @@ def save_visit(visit):
         json_visit = json.dumps(visit.__dict__)
         url = 'https://operdev-utils.herokuapp.com/sitevisits'
 
-        resp = requests.post(url=url, json=json_visit, headers=headers)
-
-        print('DONE ', resp)
+        response = requests.post(url=url, data=json_visit, headers=headers)
+        response.raise_for_status()
     except Exception as ex:
         print('EX ', ex)

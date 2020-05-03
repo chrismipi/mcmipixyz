@@ -11,8 +11,9 @@ def get_location(ip_address):
     city = resp_json['city']
     lon = resp_json['lon']
     lat = resp_json['lat']
+    country = resp_json['country']
 
-    location = Location(city, lon, lat)
+    location = Location(city, lon, lat, country)
 
     return location
 
@@ -43,3 +44,15 @@ def get_weather_details(woeid):
     details = WeatherDetails(consolidated, abbr)
 
     return details
+
+
+def save_visit(visit):
+    try:
+        headers = {'Content-type': 'application/json'}
+        json_visit = json.dumps(visit.__dict__)
+        url = 'https://operdev-utils.herokuapp.com/sitevisits'
+
+        response = requests.post(url=url, data=json_visit, headers=headers)
+        response.raise_for_status()
+    except Exception as ex:
+        print('EX ', ex)

@@ -2,7 +2,8 @@ from flask import Flask, render_template, request
 import requests
 import json
 from . import utils
-from .services import get_location, get_woeid, get_weather_details
+from .services import get_location, get_woeid, get_weather_details, save_visit
+from .models import SiteVisit
 
 app = Flask(__name__)
 
@@ -33,6 +34,10 @@ def home():
             context['wd_img'] = weather_details.get_image()
             context['wd'] = weather_details.weather()
 
+            visit = SiteVisit(ip_address, location.coordinates(),
+                              location.city(), location.country(),
+                              request.user_agent.platform)
+            save_visit(visit)
         except Exception as ex:
             print('ex', ex)
 

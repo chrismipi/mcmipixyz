@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request
-import requests
-import json
 from . import utils
 from .services import get_location, get_woeid, get_weather_details, save_visit
 from .models import SiteVisit
@@ -20,7 +18,7 @@ def home():
         city="Johannesurg"
     )
 
-    ip_address = '41.144.78.241'  # utils.get_ip_address(request)
+    ip_address = utils.get_ip_address(request)
 
     if utils.valid_ip_address(ip_address):
         try:

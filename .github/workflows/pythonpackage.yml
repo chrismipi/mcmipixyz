@@ -39,10 +39,10 @@ jobs:
         uses: opspresso/action-docker@master
         with:
           args: --docker
-          env:
-            USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-            DOCKERFILE: "Dockerfile"
-            IMAGE_NAME: "chrismipi/mcmipixyz"
-            TAG_NAME: "v0.0.1"
-            LATEST: "true"
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKERFILE: "Dockerfile"
+          IMAGE_NAME: "chrismipi/mcmipixyz"
+          TAG_NAME: "v0.0.1"
+          LATEST: "true"

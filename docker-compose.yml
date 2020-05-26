@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  mcmipixyz:
+    container_name: mcmipixyz
+    image: chrismipi/mcmipixyz:latest
+    

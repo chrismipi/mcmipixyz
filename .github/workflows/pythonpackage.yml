@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Tests and Deploy
+name: Build Docker image
 
 on:
   push:
@@ -36,14 +36,13 @@ jobs:
         run: pytest
       # Deployment stuff
       - name: Login to Heroku Container registry
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-      - name: Build and push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a mcmipixyz web
-      - name: Release
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a mcmipixyz web
+        uses: opspresso/action-docker@master
+        with:
+          args: --docker
+          env:
+            USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+            DOCKERFILE: "Dockerfile"
+            IMAGE_NAME: "chrismipi/mcmipixyz"
+            TAG_NAME: "v0.0.1"
+            LATEST: "true"

@@ -35,7 +35,7 @@ jobs:
       - name: Test with pytest
         run: pytest
       # Deployment stuff
-      - name: Login to Heroku Container registry
+      - name: Build docker image and push to DockerHub
         uses: opspresso/action-docker@master
         with:
           args: --docker
